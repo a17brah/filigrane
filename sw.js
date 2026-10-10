@@ -1,10 +1,10 @@
-const CACHE_NAME = 'filigrane-v5';
+const CACHE_NAME = 'filigrane-v6';
 
 const ASSETS_TO_CACHE = [
   './',
   './index.html',
-  './styles.css?v=5',
-  './app.js?v=5',
+  './styles.css?v=6',
+  './app.js?v=6',
   './manifest.json',
   './icon-192.png',
   './icon-512.png',

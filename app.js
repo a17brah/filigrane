@@ -49,6 +49,7 @@ const i18n = {
     androidStep2: "Ou appuyez sur ⋮ puis \"Installer\"",
     androidStep2Sub: "L'application s'ajoute directement à votre écran d'accueil.",
     close: "Fermer",
+    footerText: "Filigrane Privé — 100% Côté client • Open Source • Zéro serveur",
     watermarkPlaceholder: "Ex : Document exclusivement destiné à...",
     presets: {
       rent: "DOCUMENT EXCLUSIVEMENT DESTINÉ À LA LOCATION IMMOBILIÈRE",
@@ -97,6 +98,7 @@ const i18n = {
     androidStep2: "Or tap ⋮ then \"Install\"",
     androidStep2Sub: "The app will be added directly to your home screen.",
     close: "Close",
+    footerText: "Private Watermark — 100% Client-Side • Open Source • Zero server",
     watermarkPlaceholder: "E.g. Document exclusively intended for...",
     presets: {
       rent: "DOCUMENT EXCLUSIVELY INTENDED FOR RENTAL APPLICATION",
