@@ -1,0 +1,8 @@
+node_modules/
+__pycache__/
+*.py[cod]
+*$py.class
+.DS_Store
+Thumbs.db
+test_sample.pdf
+test_sample_filigrane.pdf
