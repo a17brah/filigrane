@@ -3,9 +3,9 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-  <title>Filigrane Privé — Sécurisez vos documents 100% Hors-Ligne</title>
+  <title>Filigrane Privé — 100% Local & Sécurisé</title>
   
-  <!-- PWA & Mobile App Support (Android & iOS) -->
+  <!-- PWA & Mobile App Settings -->
   <link rel="manifest" href="manifest.json">
   <meta name="theme-color" content="#000091">
   <meta name="apple-mobile-web-app-capable" content="yes">
@@ -15,298 +15,268 @@
   <link rel="icon" type="image/png" href="icon-192.png">
 
   <link rel="stylesheet" href="styles.css">
-  <!-- Local Vendor Libraries: Zero External Network Requests -->
+  
+  <!-- Bundled Local Libraries -->
   <script src="vendor/pdf.min.js"></script>
   <script src="vendor/jspdf.umd.min.js"></script>
 </head>
 <body>
 
-  <!-- Header -->
+  <!-- Minimalist Header -->
   <header class="header">
     <div class="header-inner">
-      <div class="logo-group">
-        <div class="marianne-stripe">
-          <div class="stripe-blue"></div>
-          <div class="stripe-white"></div>
-          <div class="stripe-red"></div>
+      <div class="brand">
+        <div class="brand-icon">
+          <img src="icon-192.png" alt="Filigrane">
         </div>
         <div>
-          <div class="site-title">
-            Filigrane Privé
-            <span class="site-badge">🛡️ 100% Local & Sécurisé</span>
+          <div class="brand-title">
+            <span data-i18n="title">Filigrane Privé</span>
+            <span class="offline-pill">
+              <span class="pulse-dot"></span>
+              <span data-i18n="badgeOffline">100% Hors-ligne</span>
+            </span>
           </div>
-          <p style="font-size: 0.8rem; color: #64748b;">Réplique locale de filigrane.beta.gouv.fr sans envoi de vos pièces d'identité</p>
         </div>
       </div>
 
-      <div class="privacy-pill">
-        <span class="pulse-dot"></span>
-        <span>Zéro serveur • Fonctionne en mode avion</span>
+      <div class="header-actions">
+        <!-- Language Switcher -->
+        <div class="lang-toggle">
+          <button type="button" class="lang-btn active" id="btn-lang-fr">FR</button>
+          <button type="button" class="lang-btn" id="btn-lang-en">EN</button>
+        </div>
+
+        <!-- Install Button -->
+        <button type="button" class="btn-install" id="btn-open-install">
+          <span>📲</span>
+          <span data-i18n="installBtn">Installer</span>
+        </button>
       </div>
     </div>
   </header>
 
-  <!-- Main Content -->
-  <main class="container">
+  <!-- App Stage -->
+  <main class="main-wrapper">
+    <div class="layout-grid">
 
-    <!-- Security Guarantee Banner -->
-    <section class="security-banner">
-      <div class="security-banner-text">
-        <h2>🔒 Vos documents sensibles ne quittent jamais votre ordinateur</h2>
-        <p>
-          Contrairement au service en ligne classique, cette application traite vos passeports, cartes d'identité et fiches de paie
-          <strong>intégralement dans la mémoire de votre navigateur</strong>. Le filigrane est incrusté directement dans les pixels (aplatissement)
-          pour empêcher toute suppression par un fraudeur.
-        </p>
-      </div>
-      <div class="security-badges-list">
-        <span class="sec-tag">✈️ 100% Hors-ligne</span>
-        <span class="sec-tag">🚫 Zéro téléversement</span>
-        <span class="sec-tag">🛡️ Anti-détourage PDF</span>
-      </div>
-    </section>
+      <!-- Left Column: Simple Controls -->
+      <div class="controls-column">
 
-    <!-- Two-column interactive interface -->
-    <div class="app-grid">
-
-      <!-- Left Column: Controls & Configuration -->
-      <div class="controls-col">
-
-        <!-- Step 1: Upload Document -->
-        <div class="card">
-          <h3 class="card-title">
-            <span><span class="step-num">1</span> Sélectionner le document</span>
-          </h3>
-
+        <!-- 1. Document Upload -->
+        <div class="panel">
           <div class="dropzone" id="dropzone">
-            <span class="dropzone-icon">📄</span>
-            <div class="dropzone-text">Glissez-déposez votre document ici</div>
-            <div class="dropzone-subtext">PDF, JPEG, PNG ou WebP (Passeport, CNI, etc.)</div>
-            <button type="button" class="btn-upload" id="btn-browse">
-              📂 Parcourir mes fichiers
-            </button>
-            <input type="file" id="file-input" class="file-input" accept="application/pdf,image/png,image/jpeg,image/webp">
-            <div style="margin-top: 0.75rem;">
-              <button type="button" class="btn-sample" id="btn-sample">
-                💡 Tester avec un document d'exemple
-              </button>
+            <div class="dropzone-icon">📄</div>
+            <div class="dropzone-title" data-i18n="dropText">Déposer un document</div>
+            <div class="dropzone-subtitle" data-i18n="dropSubtext">PDF, JPG ou PNG • Ne quitte jamais votre appareil</div>
+            <div class="dropzone-actions">
+              <button type="button" class="btn-file" id="btn-browse" data-i18n="browseBtn">Choisir un fichier</button>
+              <button type="button" class="btn-sample" id="btn-sample" data-i18n="sampleBtn">Exemple</button>
             </div>
+            <input type="file" id="file-input" class="file-input" accept="application/pdf,image/png,image/jpeg,image/webp">
           </div>
 
-          <!-- File Loaded Notification -->
-          <div class="file-loaded-info" id="file-loaded-info">
-            <div class="file-loaded-meta">
-              <span class="file-loaded-icon" id="file-icon">📄</span>
+          <!-- File Loaded Meta -->
+          <div class="file-bar" id="file-loaded-info">
+            <div class="file-bar-left">
+              <div class="file-badge-icon" id="file-icon">📄</div>
               <div>
-                <div class="file-loaded-name" id="file-name">nom_fichier.pdf</div>
-                <div class="file-loaded-size" id="file-details">1 page • 240 Ko</div>
+                <div class="file-title" id="file-name">document.pdf</div>
+                <div class="file-meta" id="file-details">1 page • 240 Ko</div>
               </div>
             </div>
-            <button type="button" class="btn-clear-file" id="btn-clear-file" title="Changer de fichier">×</button>
+            <button type="button" class="btn-remove-file" id="btn-clear-file" title="Changer de fichier">×</button>
           </div>
         </div>
 
-        <!-- Step 2: Customize Watermark -->
-        <div class="card">
-          <h3 class="card-title">
-            <span><span class="step-num">2</span> Personnaliser le filigrane</span>
-          </h3>
+        <!-- 2. Watermark Text & Options -->
+        <div class="panel">
+          <div class="section-header">
+            <span data-i18n="watermarkLabel">Texte du filigrane</span>
+          </div>
 
-          <!-- Text input -->
-          <div class="form-group">
-            <label class="form-label" for="watermark-text">
-              Texte du filigrane
-            </label>
+          <div class="text-input-wrap">
             <textarea
               id="watermark-text"
-              class="textarea-watermark"
-              placeholder="Ex : Document exclusivement destiné à la location immobilière"
+              class="textarea-clean"
+              rows="2"
+              data-i18n-placeholder="watermarkPlaceholder"
             >DOCUMENT EXCLUSIVEMENT DESTINÉ À LA LOCATION IMMOBILIÈRE</textarea>
-
-            <button type="button" class="btn-add-date" id="btn-add-date">
-              📅 + Ajouter la date du jour
-            </button>
           </div>
 
-          <!-- Suggestions / Presets -->
-          <div class="form-group">
-            <label class="form-label" style="font-size: 0.8rem; color: #475569;">
-              Suggestions d'usage recommandées :
+          <!-- Quick Presets -->
+          <div class="tags-row">
+            <button type="button" class="chip chip-date" id="btn-add-date" data-i18n="addDate">+ Date du jour</button>
+            <button type="button" class="chip preset-chip" data-key="rent">🏠 Location</button>
+            <button type="button" class="chip preset-chip" data-key="job">💼 Emploi</button>
+            <button type="button" class="chip preset-chip" data-key="bank">🏦 Banque</button>
+            <button type="button" class="chip preset-chip" data-key="general">🔒 Usage unique</button>
+          </div>
+
+          <!-- Essential Controls -->
+          <div class="control-row">
+            <span class="control-label" data-i18n="opacity">Opacité</span>
+            <input type="range" id="slider-opacity" class="slider-clean" min="10" max="65" value="25">
+            <span class="control-val" id="val-opacity">25%</span>
+          </div>
+
+          <div class="control-row">
+            <span class="control-label" data-i18n="color">Couleur</span>
+            <div class="color-dots">
+              <div class="color-dot active" data-color="#2d3748" style="background: #2d3748;" title="Anthracite"></div>
+              <div class="color-dot" data-color="#000091" style="background: #000091;" title="Bleu"></div>
+              <div class="color-dot" data-color="#b91c1c" style="background: #b91c1c;" title="Rouge"></div>
+              <div class="color-dot" data-color="#09090b" style="background: #09090b;" title="Noir"></div>
+            </div>
+          </div>
+
+          <!-- Advanced Collapsible Settings -->
+          <button type="button" class="advanced-toggle" id="btn-toggle-advanced">
+            <span id="advanced-arrow">▶</span>
+            <span data-i18n="advanced">Paramètres avancés</span>
+          </button>
+
+          <div class="advanced-panel" id="advanced-panel">
+            <div class="control-row">
+              <span class="control-label" data-i18n="size">Taille</span>
+              <input type="range" id="slider-size" class="slider-clean" min="16" max="42" value="26">
+              <span class="control-val" id="val-size">26 pt</span>
+            </div>
+
+            <div class="control-row">
+              <span class="control-label" data-i18n="density">Densité</span>
+              <input type="range" id="slider-spacing" class="slider-clean" min="18" max="45" value="28">
+              <span class="control-val" id="val-spacing">Normal</span>
+            </div>
+
+            <div class="control-row">
+              <span class="control-label" data-i18n="angle">Inclinaison</span>
+              <input type="range" id="slider-angle" class="slider-clean" min="-60" max="0" value="-32">
+              <span class="control-val" id="val-angle">-32°</span>
+            </div>
+
+            <label class="flatten-check">
+              <input type="checkbox" id="chk-flatten" checked>
+              <span data-i18n="flattenLabel">Fusionner dans les pixels (anti-fraude)</span>
             </label>
-            <div class="presets-container">
-              <button type="button" class="preset-chip" data-text="Document destiné exclusivement à la location immobilière">🏠 Location immobilière</button>
-              <button type="button" class="preset-chip" data-text="Candidature pour emploi - Ne peut servir à aucun autre usage">💼 Candidature emploi</button>
-              <button type="button" class="preset-chip" data-text="Copie réservée à l'ouverture de compte bancaire">🏦 Ouverture de compte</button>
-              <button type="button" class="preset-chip" data-text="Document pour souscription abonnement - Usage unique">📱 Abonnement / Télécom</button>
-              <button type="button" class="preset-chip" data-text="Justificatif de domicile - Ne peut être cédé à un tiers">📬 Justificatif domicile</button>
-            </div>
           </div>
 
-          <!-- Watermark Options & Sliders -->
-          <div style="margin-top: 1.25rem; border-top: 1px solid var(--border); padding-top: 1rem;">
-            
-            <!-- Opacity -->
-            <div class="slider-row">
-              <label class="slider-label" for="slider-opacity">Opacité du texte</label>
-              <div class="slider-control">
-                <input type="range" id="slider-opacity" class="range-input" min="10" max="65" value="25">
-                <span class="slider-val" id="val-opacity">25%</span>
-              </div>
-            </div>
-
-            <!-- Size -->
-            <div class="slider-row">
-              <label class="slider-label" for="slider-size">Taille du filigrane</label>
-              <div class="slider-control">
-                <input type="range" id="slider-size" class="range-input" min="16" max="42" value="26">
-                <span class="slider-val" id="val-size">26 pt</span>
-              </div>
-            </div>
-
-            <!-- Spacing / Density -->
-            <div class="slider-row">
-              <label class="slider-label" for="slider-spacing">Densité / Espacement</label>
-              <div class="slider-control">
-                <input type="range" id="slider-spacing" class="range-input" min="18" max="45" value="28">
-                <span class="slider-val" id="val-spacing">Normal</span>
-              </div>
-            </div>
-
-            <!-- Angle -->
-            <div class="slider-row">
-              <label class="slider-label" for="slider-angle">Inclinaison</label>
-              <div class="slider-control">
-                <input type="range" id="slider-angle" class="range-input" min="-60" max="0" value="-32">
-                <span class="slider-val" id="val-angle">-32°</span>
-              </div>
-            </div>
-
-            <!-- Color Palette -->
-            <div class="slider-row">
-              <label class="slider-label">Couleur de l'encre</label>
-              <div class="color-picker-group">
-                <div class="color-option active" data-color="#2d3748" style="background: #2d3748;" title="Gris anthracite (Recommandé)"></div>
-                <div class="color-option" data-color="#000091" style="background: #000091;" title="Bleu officiel Marianne"></div>
-                <div class="color-option" data-color="#b91c1c" style="background: #b91c1c;" title="Rouge sécurité"></div>
-                <div class="color-option" data-color="#09090b" style="background: #09090b;" title="Noir profond"></div>
-              </div>
-            </div>
-
-            <!-- Flattening security toggle -->
-            <div class="security-flatten-box">
-              <label class="checkbox-label">
-                <input type="checkbox" id="chk-flatten" checked>
-                <span>
-                  <strong>Aplatissement raster sécurisé (Anti-fraude)</strong><br>
-                  <span style="color: #64748b;">
-                    Fusionne le texte directement dans l'image de la page pour qu'aucun logiciel PDF ne puisse supprimer le filigrane.
-                  </span>
-                </span>
-              </label>
-            </div>
-
-          </div>
         </div>
 
-        <!-- Step 3: Actions & Download -->
-        <div class="card actions-card">
-          <h3 class="card-title">
-            <span><span class="step-num">3</span> Télécharger le document</span>
-          </h3>
-
+        <!-- 3. Actions / Download -->
+        <div class="panel actions-panel">
           <button type="button" class="btn-download-primary" id="btn-download-pdf" disabled>
-            <span>📥 Télécharger le PDF filigrané</span>
+            <span>📥</span>
+            <span data-i18n="downloadPdf">Télécharger le PDF sécurisé</span>
           </button>
 
-          <button type="button" class="btn-download-secondary" id="btn-download-img" disabled>
-            <span>🖼️ Télécharger en image JPG</span>
+          <button type="button" class="btn-download-secondary" id="btn-download-img" disabled data-i18n="downloadJpg">
+            Télécharger en image JPG
           </button>
 
-          <!-- Progress Bar -->
-          <div class="progress-container" id="progress-container">
-            <div class="progress-bar-bg">
-              <div class="progress-bar-fill" id="progress-bar-fill"></div>
+          <!-- Progress feedback -->
+          <div class="progress-box" id="progress-container">
+            <div class="progress-track">
+              <div class="progress-fill" id="progress-bar-fill"></div>
             </div>
-            <div class="progress-text" id="progress-text">Traitement en cours...</div>
+            <div class="progress-label" id="progress-text" data-i18n="processing">Sécurisation en cours...</div>
           </div>
         </div>
 
       </div>
 
-      <!-- Right Column: Interactive Live Preview -->
-      <div class="preview-container">
+      <!-- Right Column: Live Document Preview -->
+      <div class="preview-panel">
         <div class="preview-card">
-          
-          <div class="preview-toolbar">
-            <div class="page-nav">
-              <button type="button" class="btn-nav" id="btn-prev-page" disabled>◀ Précédent</button>
+          <div class="preview-nav-bar">
+            <div class="page-controls">
+              <button type="button" class="btn-page-nav" id="btn-prev-page" disabled>◀</button>
               <span id="page-indicator">Page 0 / 0</span>
-              <button type="button" class="btn-nav" id="btn-next-page" disabled>Suivant ▶</button>
+              <button type="button" class="btn-page-nav" id="btn-next-page" disabled>▶</button>
             </div>
-
-            <div class="zoom-controls">
-              <button type="button" class="btn-tool" id="btn-zoom-out" title="Zoom arrière">🔍 -</button>
-              <button type="button" class="btn-tool" id="btn-zoom-reset" title="Taille réelle">100%</button>
-              <button type="button" class="btn-tool" id="btn-zoom-in" title="Zoom avant">🔍 +</button>
+            <div style="font-size: 0.72rem; color: #94a3b8; font-weight: 500;">
+              🔒 100% Local
             </div>
           </div>
 
-          <div class="preview-viewport" id="preview-viewport">
-            <div class="preview-empty-state" id="preview-empty-state">
-              <div class="preview-empty-icon">🛡️</div>
-              <p style="font-weight: 600; margin-bottom: 0.35rem;">Aucun document chargé</p>
-              <p style="font-size: 0.82rem;">Déposez votre document à gauche ou cliquez sur "Tester avec un exemple"</p>
+          <div class="preview-stage" id="preview-viewport">
+            <div class="preview-placeholder" id="preview-empty-state">
+              <div class="preview-placeholder-icon">🛡️</div>
+              <div data-i18n="noDoc">Aucun document sélectionné</div>
             </div>
             <canvas id="preview-canvas"></canvas>
           </div>
-
         </div>
       </div>
 
     </div>
+  </main>
 
-    <!-- Security & Education Information Section -->
-    <section class="info-section">
-      <h3 class="info-title">💡 Pourquoi cette version locale protège mieux votre identité ?</h3>
-      
-      <div class="features-grid">
-        <div class="feature-box">
-          <div class="feature-icon">🛡️</div>
-          <div class="feature-title">Zéro fuite de données</div>
-          <div class="feature-desc">
-            Sur les serveurs cloud, vos passeports et pièces d'identité transitent par des réseaux distants.
-            Ici, l'intégralité du traitement a lieu dans la mémoire vive de votre propre machine.
+  <!-- Install Modal (iOS / Android Instructions) -->
+  <div class="modal-overlay" id="install-modal">
+    <div class="modal-content">
+      <div class="modal-header">
+        <div class="modal-title" data-i18n="installModalTitle">Installer l'application</div>
+        <button type="button" class="btn-close-modal" id="btn-close-modal">×</button>
+      </div>
+
+      <div class="modal-tabs">
+        <button type="button" class="modal-tab active" id="tab-ios" data-i18n="installIosTab">iPhone (iOS)</button>
+        <button type="button" class="modal-tab" id="tab-android" data-i18n="installAndroidTab">Android</button>
+      </div>
+
+      <!-- iOS Guide -->
+      <div class="tab-pane active" id="pane-ios">
+        <div class="guide-step">
+          <div class="step-bubble">1</div>
+          <div class="step-text">
+            <h4 data-i18n="iosStep1">Dans Safari, appuyez sur le bouton Partager</h4>
+            <p data-i18n="iosStep1Sub">L'icône carrée avec une flèche vers le haut en bas de votre écran.</p>
           </div>
         </div>
 
-        <div class="feature-box">
-          <div class="feature-icon">✂️</div>
-          <div class="feature-title">Filigrane infalsifiable</div>
-          <div class="feature-desc">
-            Dans un PDF classique, un filigrane est un calque de texte qu'un escroc peut supprimer en 1 clic dans Acrobat ou Illustrator.
-            Notre outil rastérise la page : le filigrane est fusionné avec les pixels du document.
+        <div class="guide-step">
+          <div class="step-bubble">2</div>
+          <div class="step-text">
+            <h4 data-i18n="iosStep2">Faites défiler et choisissez "Sur l'écran d'accueil"</h4>
+            <p><span class="icon-tag">➕ Sur l'écran d'accueil</span></p>
           </div>
         </div>
 
-        <div class="feature-box">
-          <div class="feature-icon">✈️</div>
-          <div class="feature-title">Fonctionne 100% hors-ligne</div>
-          <div class="feature-desc">
-            Toutes les librairies nécessaires sont incluses localement. Vous pouvez désactiver votre connexion Wi-Fi
-            ou passer en mode avion et vérifier par vous-même que tout continue de fonctionner parfaitement.
+        <div class="guide-step">
+          <div class="step-bubble">3</div>
+          <div class="step-text">
+            <h4 data-i18n="iosStep3">Appuyez sur "Ajouter"</h4>
+            <p data-i18n="iosStep3Sub">L'icône apparaîtra sur votre écran d'accueil et fonctionnera hors-ligne.</p>
           </div>
         </div>
       </div>
-    </section>
 
-  </main>
+      <!-- Android Guide -->
+      <div class="tab-pane" id="pane-android">
+        <div class="guide-step">
+          <div class="step-bubble">1</div>
+          <div class="step-text">
+            <h4 data-i18n="androidStep1">Dans Chrome, appuyez sur "Installer l'application"</h4>
+            <p data-i18n="androidStep1Sub">Une bannière apparaît en bas de l'écran.</p>
+          </div>
+        </div>
 
-  <!-- Footer -->
-  <footer class="footer">
-    <p>Filigrane Privé — Outil open-source d'utilité publique pour la protection de l'identité numérique.</p>
-    <p style="margin-top: 0.35rem; font-size: 0.75rem;">
-      Inspiré du concept de FiligraneFacile (beta.gouv.fr) • Conçu pour un respect absolu de la vie privée.
-    </p>
+        <div class="guide-step">
+          <div class="step-bubble">2</div>
+          <div class="step-text">
+            <h4 data-i18n="androidStep2">Ou appuyez sur les 3 points ⋮ en haut puis "Installer"</h4>
+            <p data-i18n="androidStep2Sub">L'application s'ajoute directement à votre tiroir d'applications.</p>
+          </div>
+        </div>
+      </div>
+
+      <button type="button" class="btn-download-secondary" id="btn-modal-close-action" data-i18n="close">Fermer</button>
+    </div>
+  </div>
+
+  <footer class="footer-clean">
+    Filigrane Privé — 100% Client-Side • Open Source • Zéro serveur
   </footer>
 
   <script src="app.js"></script>
