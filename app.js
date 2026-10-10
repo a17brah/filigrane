@@ -156,7 +156,6 @@ const valSpacing = document.getElementById('val-spacing');
 const sliderAngle = document.getElementById('slider-angle');
 const valAngle = document.getElementById('val-angle');
 const dotColors = document.querySelectorAll('.dot-color');
-const chkFlatten = document.getElementById('chk-flatten');
 
 const btnToggleAdvanced = document.getElementById('btn-toggle-advanced');
 const advancedPanel = document.getElementById('advanced-panel');
@@ -360,10 +359,6 @@ function setupOptionEvents() {
       state.options.color = dot.getAttribute('data-color');
       renderCurrentPagePreview();
     });
-  });
-
-  chkFlatten.addEventListener('change', (e) => {
-    state.options.flatten = e.target.checked;
   });
 
   // Collapsible Advanced

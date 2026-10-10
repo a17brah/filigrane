@@ -415,20 +415,6 @@ body {
   display: block;
 }
 
-.check-flatten {
-  display: flex;
-  align-items: center;
-  gap: 0.45rem;
-  font-size: 0.74rem;
-  color: var(--text-muted);
-  margin-top: 0.5rem;
-  cursor: pointer;
-}
-
-.check-flatten input {
-  accent-color: var(--primary);
-}
-
 /* Preview Canvas Container */
 .preview-box {
   background: #18181b;
