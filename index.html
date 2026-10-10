@@ -3,52 +3,41 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-  <title>Filigrane Privé — 100% Local & Sécurisé</title>
+  <title>Filigrane — 100% Local & Private</title>
   
-  <!-- PWA & Mobile App Settings -->
   <link rel="manifest" href="manifest.json">
-  <meta name="theme-color" content="#000091">
+  <meta name="theme-color" content="#ffffff">
   <meta name="apple-mobile-web-app-capable" content="yes">
   <meta name="apple-mobile-web-app-status-bar-style" content="default">
   <meta name="apple-mobile-web-app-title" content="Filigrane">
   <link rel="apple-touch-icon" href="icon-192.png">
   <link rel="icon" type="image/png" href="icon-192.png">
 
-  <link rel="stylesheet" href="styles.css">
+  <!-- Cache-busted stylesheet -->
+  <link rel="stylesheet" href="styles.css?v=4">
   
-  <!-- Bundled Local Libraries -->
   <script src="vendor/pdf.min.js"></script>
   <script src="vendor/jspdf.umd.min.js"></script>
 </head>
 <body>
 
-  <!-- Minimalist Header -->
-  <header class="header">
-    <div class="header-inner">
-      <div class="brand">
-        <div class="brand-icon">
-          <img src="icon-192.png" alt="Filigrane">
-        </div>
-        <div>
-          <div class="brand-title">
-            <span data-i18n="title">Filigrane Privé</span>
-            <span class="offline-pill">
-              <span class="pulse-dot"></span>
-              <span data-i18n="badgeOffline">100% Hors-ligne</span>
-            </span>
-          </div>
-        </div>
+  <!-- Minimal Glass Header -->
+  <header class="topbar">
+    <div class="topbar-content">
+      <div class="brand-wrapper">
+        <span class="brand-title" data-i18n="brand">Filigrane</span>
+        <span class="pill-offline" data-i18n="offlinePill">100% Local</span>
       </div>
 
-      <div class="header-actions">
-        <!-- Language Switcher -->
-        <div class="lang-toggle">
+      <div class="topbar-right">
+        <!-- FR / EN Switcher -->
+        <div class="lang-switch">
           <button type="button" class="lang-btn active" id="btn-lang-fr">FR</button>
           <button type="button" class="lang-btn" id="btn-lang-en">EN</button>
         </div>
 
-        <!-- Install Button -->
-        <button type="button" class="btn-install" id="btn-open-install">
+        <!-- Install PWA Button -->
+        <button type="button" class="btn-install-pill" id="btn-open-install">
           <span>📲</span>
           <span data-i18n="installBtn">Installer</span>
         </button>
@@ -56,229 +45,207 @@
     </div>
   </header>
 
-  <!-- App Stage -->
-  <main class="main-wrapper">
-    <div class="layout-grid">
+  <!-- Clean App Container -->
+  <main class="app-container">
 
-      <!-- Left Column: Simple Controls -->
-      <div class="controls-column">
-
-        <!-- 1. Document Upload -->
-        <div class="panel">
-          <div class="dropzone" id="dropzone">
-            <div class="dropzone-icon">📄</div>
-            <div class="dropzone-title" data-i18n="dropText">Déposer un document</div>
-            <div class="dropzone-subtitle" data-i18n="dropSubtext">PDF, JPG ou PNG • Ne quitte jamais votre appareil</div>
-            <div class="dropzone-actions">
-              <button type="button" class="btn-file" id="btn-browse" data-i18n="browseBtn">Choisir un fichier</button>
-              <button type="button" class="btn-sample" id="btn-sample" data-i18n="sampleBtn">Exemple</button>
-            </div>
-            <input type="file" id="file-input" class="file-input" accept="application/pdf,image/png,image/jpeg,image/webp">
-          </div>
-
-          <!-- File Loaded Meta -->
-          <div class="file-bar" id="file-loaded-info">
-            <div class="file-bar-left">
-              <div class="file-badge-icon" id="file-icon">📄</div>
-              <div>
-                <div class="file-title" id="file-name">document.pdf</div>
-                <div class="file-meta" id="file-details">1 page • 240 Ko</div>
-              </div>
-            </div>
-            <button type="button" class="btn-remove-file" id="btn-clear-file" title="Changer de fichier">×</button>
-          </div>
+    <!-- Card 1: Document Upload -->
+    <div class="clean-card">
+      <div class="upload-dropzone" id="dropzone">
+        <div class="upload-icon">📄</div>
+        <div class="upload-text" data-i18n="uploadTitle">Déposer un document</div>
+        <div class="upload-hint" data-i18n="uploadSub">PDF, JPG ou PNG • Reste sur votre appareil</div>
+        <div class="upload-buttons">
+          <button type="button" class="btn-browse" id="btn-browse" data-i18n="browseBtn">Choisir un fichier</button>
+          <button type="button" class="btn-sample" id="btn-sample" data-i18n="sampleBtn">Exemple</button>
         </div>
-
-        <!-- 2. Watermark Text & Options -->
-        <div class="panel">
-          <div class="section-header">
-            <span data-i18n="watermarkLabel">Texte du filigrane</span>
-          </div>
-
-          <div class="text-input-wrap">
-            <textarea
-              id="watermark-text"
-              class="textarea-clean"
-              rows="2"
-              data-i18n-placeholder="watermarkPlaceholder"
-            >DOCUMENT EXCLUSIVEMENT DESTINÉ À LA LOCATION IMMOBILIÈRE</textarea>
-          </div>
-
-          <!-- Quick Presets -->
-          <div class="tags-row">
-            <button type="button" class="chip chip-date" id="btn-add-date" data-i18n="addDate">+ Date du jour</button>
-            <button type="button" class="chip preset-chip" data-key="rent">🏠 Location</button>
-            <button type="button" class="chip preset-chip" data-key="job">💼 Emploi</button>
-            <button type="button" class="chip preset-chip" data-key="bank">🏦 Banque</button>
-            <button type="button" class="chip preset-chip" data-key="general">🔒 Usage unique</button>
-          </div>
-
-          <!-- Essential Controls -->
-          <div class="control-row">
-            <span class="control-label" data-i18n="opacity">Opacité</span>
-            <input type="range" id="slider-opacity" class="slider-clean" min="10" max="65" value="25">
-            <span class="control-val" id="val-opacity">25%</span>
-          </div>
-
-          <div class="control-row">
-            <span class="control-label" data-i18n="color">Couleur</span>
-            <div class="color-dots">
-              <div class="color-dot active" data-color="#2d3748" style="background: #2d3748;" title="Anthracite"></div>
-              <div class="color-dot" data-color="#000091" style="background: #000091;" title="Bleu"></div>
-              <div class="color-dot" data-color="#b91c1c" style="background: #b91c1c;" title="Rouge"></div>
-              <div class="color-dot" data-color="#09090b" style="background: #09090b;" title="Noir"></div>
-            </div>
-          </div>
-
-          <!-- Advanced Collapsible Settings -->
-          <button type="button" class="advanced-toggle" id="btn-toggle-advanced">
-            <span id="advanced-arrow">▶</span>
-            <span data-i18n="advanced">Paramètres avancés</span>
-          </button>
-
-          <div class="advanced-panel" id="advanced-panel">
-            <div class="control-row">
-              <span class="control-label" data-i18n="size">Taille</span>
-              <input type="range" id="slider-size" class="slider-clean" min="16" max="42" value="26">
-              <span class="control-val" id="val-size">26 pt</span>
-            </div>
-
-            <div class="control-row">
-              <span class="control-label" data-i18n="density">Densité</span>
-              <input type="range" id="slider-spacing" class="slider-clean" min="18" max="45" value="28">
-              <span class="control-val" id="val-spacing">Normal</span>
-            </div>
-
-            <div class="control-row">
-              <span class="control-label" data-i18n="angle">Inclinaison</span>
-              <input type="range" id="slider-angle" class="slider-clean" min="-60" max="0" value="-32">
-              <span class="control-val" id="val-angle">-32°</span>
-            </div>
-
-            <label class="flatten-check">
-              <input type="checkbox" id="chk-flatten" checked>
-              <span data-i18n="flattenLabel">Fusionner dans les pixels (anti-fraude)</span>
-            </label>
-          </div>
-
-        </div>
-
-        <!-- 3. Actions / Download -->
-        <div class="panel actions-panel">
-          <button type="button" class="btn-download-primary" id="btn-download-pdf" disabled>
-            <span>📥</span>
-            <span data-i18n="downloadPdf">Télécharger le PDF sécurisé</span>
-          </button>
-
-          <button type="button" class="btn-download-secondary" id="btn-download-img" disabled data-i18n="downloadJpg">
-            Télécharger en image JPG
-          </button>
-
-          <!-- Progress feedback -->
-          <div class="progress-box" id="progress-container">
-            <div class="progress-track">
-              <div class="progress-fill" id="progress-bar-fill"></div>
-            </div>
-            <div class="progress-label" id="progress-text" data-i18n="processing">Sécurisation en cours...</div>
-          </div>
-        </div>
-
+        <input type="file" id="file-input" class="file-input" accept="application/pdf,image/png,image/jpeg,image/webp">
       </div>
 
-      <!-- Right Column: Live Document Preview -->
-      <div class="preview-panel">
-        <div class="preview-card">
-          <div class="preview-nav-bar">
-            <div class="page-controls">
-              <button type="button" class="btn-page-nav" id="btn-prev-page" disabled>◀</button>
-              <span id="page-indicator">Page 0 / 0</span>
-              <button type="button" class="btn-page-nav" id="btn-next-page" disabled>▶</button>
-            </div>
-            <div style="font-size: 0.72rem; color: #94a3b8; font-weight: 500;">
-              🔒 100% Local
-            </div>
-          </div>
-
-          <div class="preview-stage" id="preview-viewport">
-            <div class="preview-placeholder" id="preview-empty-state">
-              <div class="preview-placeholder-icon">🛡️</div>
-              <div data-i18n="noDoc">Aucun document sélectionné</div>
-            </div>
-            <canvas id="preview-canvas"></canvas>
+      <!-- Loaded File Pill -->
+      <div class="loaded-pill" id="file-loaded-info">
+        <div class="loaded-pill-left">
+          <span style="font-size: 1.1rem;">📄</span>
+          <div>
+            <div class="loaded-pill-name" id="file-name">document.pdf</div>
+            <div class="loaded-pill-meta" id="file-details">1 page • 240 Ko</div>
           </div>
         </div>
+        <button type="button" class="btn-remove" id="btn-clear-file" title="Retirer">✕</button>
       </div>
-
     </div>
+
+    <!-- Card 2: Watermark Customization -->
+    <div class="clean-card controls-wrap">
+      <textarea
+        id="watermark-text"
+        class="clean-textarea"
+        rows="2"
+        data-i18n-placeholder="watermarkPlaceholder"
+      >DOCUMENT EXCLUSIVEMENT DESTINÉ À LA LOCATION IMMOBILIÈRE</textarea>
+
+      <!-- Quick Preset Pills (All fully localized) -->
+      <div class="pills-group">
+        <button type="button" class="tag-pill date-pill" id="btn-add-date" data-i18n="addDate">+ Date du jour</button>
+        <button type="button" class="tag-pill preset-btn" data-key="rent" data-i18n="presetRent">🏠 Location</button>
+        <button type="button" class="tag-pill preset-btn" data-key="job" data-i18n="presetJob">💼 Emploi</button>
+        <button type="button" class="tag-pill preset-btn" data-key="bank" data-i18n="presetBank">🏦 Banque</button>
+        <button type="button" class="tag-pill preset-btn" data-key="general" data-i18n="presetGeneral">🔒 Usage unique</button>
+      </div>
+
+      <!-- Essential Controls -->
+      <div class="row-control">
+        <span class="label-control" data-i18n="opacity">Opacité</span>
+        <input type="range" id="slider-opacity" class="range-minimal" min="10" max="65" value="25">
+        <span class="val-control" id="val-opacity">25%</span>
+      </div>
+
+      <div class="row-control">
+        <span class="label-control" data-i18n="color">Couleur</span>
+        <div class="dots-container">
+          <div class="dot-color active" data-color="#2d3748" style="background: #2d3748;" title="Gris"></div>
+          <div class="dot-color" data-color="#000091" style="background: #000091;" title="Bleu"></div>
+          <div class="dot-color" data-color="#b91c1c" style="background: #b91c1c;" title="Rouge"></div>
+          <div class="dot-color" data-color="#09090b" style="background: #09090b;" title="Noir"></div>
+        </div>
+      </div>
+
+      <!-- Advanced Toggle -->
+      <button type="button" class="btn-accordion" id="btn-toggle-advanced">
+        <span id="accordion-arrow">▶</span>
+        <span data-i18n="advanced">Paramètres avancés</span>
+      </button>
+
+      <div class="accordion-body" id="advanced-panel">
+        <div class="row-control">
+          <span class="label-control" data-i18n="size">Taille</span>
+          <input type="range" id="slider-size" class="range-minimal" min="16" max="42" value="26">
+          <span class="val-control" id="val-size">26 pt</span>
+        </div>
+
+        <div class="row-control">
+          <span class="label-control" data-i18n="density">Densité</span>
+          <input type="range" id="slider-spacing" class="range-minimal" min="18" max="45" value="28">
+          <span class="val-control" id="val-spacing">Normal</span>
+        </div>
+
+        <div class="row-control">
+          <span class="label-control" data-i18n="angle">Angle</span>
+          <input type="range" id="slider-angle" class="range-minimal" min="-60" max="0" value="-32">
+          <span class="val-control" id="val-angle">-32°</span>
+        </div>
+
+        <label class="check-flatten">
+          <input type="checkbox" id="chk-flatten" checked>
+          <span data-i18n="flattenLabel">Fusionner dans les pixels (anti-fraude)</span>
+        </label>
+      </div>
+    </div>
+
+    <!-- Card 3: Live Preview & Download -->
+    <div class="clean-card">
+      <div class="page-switch-row">
+        <button type="button" class="btn-nav-page" id="btn-prev-page" disabled>◀</button>
+        <span class="page-indicator-text" id="page-indicator">Page 0 / 0</span>
+        <button type="button" class="btn-nav-page" id="btn-next-page" disabled>▶</button>
+      </div>
+
+      <div class="preview-box" id="preview-viewport">
+        <div class="preview-empty-text" id="preview-empty-state">
+          <div class="preview-empty-icon">🛡️</div>
+          <span data-i18n="noDoc">Aperçu en direct</span>
+        </div>
+        <canvas id="preview-canvas"></canvas>
+      </div>
+
+      <!-- Actions -->
+      <button type="button" class="btn-cta-download" id="btn-download-pdf" disabled>
+        <span>📥</span>
+        <span data-i18n="downloadPdf">Télécharger le PDF sécurisé</span>
+      </button>
+
+      <button type="button" class="btn-cta-secondary" id="btn-download-img" disabled data-i18n="downloadJpg">
+        Télécharger en image JPG
+      </button>
+
+      <!-- Progress -->
+      <div class="progress-strip" id="progress-container">
+        <div class="progress-track-strip">
+          <div class="progress-bar-inner" id="progress-bar-fill"></div>
+        </div>
+        <div class="progress-text-strip" id="progress-text" data-i18n="processing">Sécurisation en cours...</div>
+      </div>
+    </div>
+
+    <footer class="minimal-footer">
+      Filigrane — 100% In-Browser • Zero-Server • Open Source
+    </footer>
   </main>
 
-  <!-- Install Modal (iOS / Android Instructions) -->
-  <div class="modal-overlay" id="install-modal">
-    <div class="modal-content">
-      <div class="modal-header">
-        <div class="modal-title" data-i18n="installModalTitle">Installer l'application</div>
-        <button type="button" class="btn-close-modal" id="btn-close-modal">×</button>
+  <!-- Install Modal (iPhone / Android) -->
+  <div class="modal-layer" id="install-modal">
+    <div class="modal-card">
+      <div class="modal-top">
+        <div class="modal-heading" data-i18n="installModalTitle">Installer l'application</div>
+        <button type="button" class="modal-close-btn" id="btn-close-modal">✕</button>
       </div>
 
-      <div class="modal-tabs">
-        <button type="button" class="modal-tab active" id="tab-ios" data-i18n="installIosTab">iPhone (iOS)</button>
-        <button type="button" class="modal-tab" id="tab-android" data-i18n="installAndroidTab">Android</button>
+      <div class="modal-switcher">
+        <button type="button" class="modal-tab-btn active" id="tab-ios" data-i18n="installIosTab">iPhone (iOS)</button>
+        <button type="button" class="modal-tab-btn" id="tab-android" data-i18n="installAndroidTab">Android</button>
       </div>
 
-      <!-- iOS Guide -->
-      <div class="tab-pane active" id="pane-ios">
-        <div class="guide-step">
-          <div class="step-bubble">1</div>
-          <div class="step-text">
+      <!-- iPhone Steps -->
+      <div class="tab-content-item active" id="pane-ios">
+        <div class="instruction-step">
+          <div class="step-num-bubble">1</div>
+          <div class="step-instruction-text">
             <h4 data-i18n="iosStep1">Dans Safari, appuyez sur le bouton Partager</h4>
             <p data-i18n="iosStep1Sub">L'icône carrée avec une flèche vers le haut en bas de votre écran.</p>
           </div>
         </div>
 
-        <div class="guide-step">
-          <div class="step-bubble">2</div>
-          <div class="step-text">
+        <div class="instruction-step">
+          <div class="step-num-bubble">2</div>
+          <div class="step-instruction-text">
             <h4 data-i18n="iosStep2">Faites défiler et choisissez "Sur l'écran d'accueil"</h4>
-            <p><span class="icon-tag">➕ Sur l'écran d'accueil</span></p>
+            <p><strong data-i18n="iosStep2Sub">➕ Sur l'écran d'accueil</strong></p>
           </div>
         </div>
 
-        <div class="guide-step">
-          <div class="step-bubble">3</div>
-          <div class="step-text">
+        <div class="instruction-step">
+          <div class="step-num-bubble">3</div>
+          <div class="step-instruction-text">
             <h4 data-i18n="iosStep3">Appuyez sur "Ajouter"</h4>
-            <p data-i18n="iosStep3Sub">L'icône apparaîtra sur votre écran d'accueil et fonctionnera hors-ligne.</p>
+            <p data-i18n="iosStep3Sub">L'application s'installe et fonctionnera 100% hors-ligne.</p>
           </div>
         </div>
       </div>
 
-      <!-- Android Guide -->
-      <div class="tab-pane" id="pane-android">
-        <div class="guide-step">
-          <div class="step-bubble">1</div>
-          <div class="step-text">
+      <!-- Android Steps -->
+      <div class="tab-content-item" id="pane-android">
+        <div class="instruction-step">
+          <div class="step-num-bubble">1</div>
+          <div class="step-instruction-text">
             <h4 data-i18n="androidStep1">Dans Chrome, appuyez sur "Installer l'application"</h4>
             <p data-i18n="androidStep1Sub">Une bannière apparaît en bas de l'écran.</p>
           </div>
         </div>
 
-        <div class="guide-step">
-          <div class="step-bubble">2</div>
-          <div class="step-text">
-            <h4 data-i18n="androidStep2">Ou appuyez sur les 3 points ⋮ en haut puis "Installer"</h4>
-            <p data-i18n="androidStep2Sub">L'application s'ajoute directement à votre tiroir d'applications.</p>
+        <div class="instruction-step">
+          <div class="step-num-bubble">2</div>
+          <div class="step-instruction-text">
+            <h4 data-i18n="androidStep2">Ou appuyez sur ⋮ puis "Installer"</h4>
+            <p data-i18n="androidStep2Sub">L'application s'ajoute directement à votre écran d'accueil.</p>
           </div>
         </div>
       </div>
 
-      <button type="button" class="btn-download-secondary" id="btn-modal-close-action" data-i18n="close">Fermer</button>
+      <button type="button" class="btn-cta-secondary" id="btn-modal-close-action" data-i18n="close" style="margin-top: 1rem;">
+        Fermer
+      </button>
     </div>
   </div>
 
-  <footer class="footer-clean">
-    Filigrane Privé — 100% Client-Side • Open Source • Zéro serveur
-  </footer>
-
-  <script src="app.js"></script>
+  <script src="app.js?v=4"></script>
 </body>
 </html>

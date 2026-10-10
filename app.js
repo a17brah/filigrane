@@ -1,76 +1,75 @@
 /**
- * Filigrane Privé — Minimalist Client-Side Watermarking
- * 100% In-Browser & Offline. English / French support.
+ * Filigrane — Minimalist & Local Watermarking Engine
+ * 100% Client-Side. English & French.
  */
 
-// Initialize PDF.js worker
 if (window.pdfjsLib) {
   window.pdfjsLib.GlobalWorkerOptions.workerSrc = 'vendor/pdf.worker.min.js';
 }
 
-// Translations Dictionary
+// Full Bilingual Dictionary
 const i18n = {
   fr: {
-    title: "Filigrane Privé",
-    badgeOffline: "100% Hors-ligne",
+    brand: "Filigrane",
+    offlinePill: "100% Local",
     installBtn: "Installer",
-    dropText: "Déposer un document",
-    dropSubtext: "PDF, JPG ou PNG • Ne quitte jamais votre appareil",
+    uploadTitle: "Déposer un document",
+    uploadSub: "PDF, JPG ou PNG • Reste sur votre appareil",
     browseBtn: "Choisir un fichier",
     sampleBtn: "Exemple",
-    watermarkLabel: "Texte du filigrane",
-    watermarkPlaceholder: "Ex : Document exclusivement destiné à...",
     addDate: "+ Date du jour",
-    presets: {
-      rent: "Document destiné exclusivement à la location immobilière",
-      job: "Candidature pour emploi - Ne peut servir à aucun autre usage",
-      bank: "Copie réservée à l'ouverture de compte bancaire",
-      general: "Document confidentiel - Usage unique et exclusif"
-    },
+    presetRent: "🏠 Location",
+    presetJob: "💼 Emploi",
+    presetBank: "🏦 Banque",
+    presetGeneral: "🔒 Usage unique",
     opacity: "Opacité",
     color: "Couleur",
     advanced: "Paramètres avancés",
     size: "Taille",
     density: "Densité",
     densityValues: { tight: "Très serré", normal: "Normal", airy: "Aéré" },
-    angle: "Inclinaison",
+    angle: "Angle",
     flattenLabel: "Fusionner dans les pixels (anti-fraude)",
     downloadPdf: "Télécharger le PDF sécurisé",
     downloadJpg: "Télécharger en image JPG",
     processing: "Sécurisation en cours...",
     page: "Page",
-    noDoc: "Aucun document sélectionné",
+    noDoc: "Aperçu en direct",
     installModalTitle: "Installer l'application",
     installIosTab: "iPhone (iOS)",
     installAndroidTab: "Android",
     iosStep1: "Dans Safari, appuyez sur le bouton Partager",
     iosStep1Sub: "L'icône carrée avec une flèche vers le haut en bas de votre écran.",
     iosStep2: "Faites défiler et choisissez \"Sur l'écran d'accueil\"",
+    iosStep2Sub: "➕ Sur l'écran d'accueil",
     iosStep3: "Appuyez sur \"Ajouter\"",
-    iosStep3Sub: "L'icône apparaîtra sur votre écran d'accueil et fonctionnera hors-ligne.",
+    iosStep3Sub: "L'application s'installe et fonctionnera 100% hors-ligne.",
     androidStep1: "Dans Chrome, appuyez sur \"Installer l'application\"",
     androidStep1Sub: "Une bannière apparaît en bas de l'écran.",
-    androidStep2: "Ou appuyez sur les 3 points ⋮ en haut puis \"Installer\"",
-    androidStep2Sub: "L'application s'ajoute directement à votre tiroir d'applications.",
-    close: "Fermer"
+    androidStep2: "Ou appuyez sur ⋮ puis \"Installer\"",
+    androidStep2Sub: "L'application s'ajoute directement à votre écran d'accueil.",
+    close: "Fermer",
+    watermarkPlaceholder: "Ex : Document exclusivement destiné à...",
+    presets: {
+      rent: "DOCUMENT EXCLUSIVEMENT DESTINÉ À LA LOCATION IMMOBILIÈRE",
+      job: "CANDIDATURE POUR EMPLOI - NE PEUT SERVIR À AUCUN AUTRE USAGE",
+      bank: "COPIE RÉSERVÉE À L'OUVERTURE DE COMPTE BANCAIRE",
+      general: "DOCUMENT CONFIDENTIEL - USAGE UNIQUE ET EXCLUSIF"
+    }
   },
   en: {
-    title: "Private Watermark",
-    badgeOffline: "100% Offline",
+    brand: "Watermark",
+    offlinePill: "100% Local",
     installBtn: "Install",
-    dropText: "Drop a document",
-    dropSubtext: "PDF, JPG or PNG • Never leaves your device",
+    uploadTitle: "Drop a document",
+    uploadSub: "PDF, JPG or PNG • Stays on your device",
     browseBtn: "Choose file",
     sampleBtn: "Sample",
-    watermarkLabel: "Watermark text",
-    watermarkPlaceholder: "E.g. Document exclusively intended for...",
     addDate: "+ Today's date",
-    presets: {
-      rent: "Document exclusively intended for rental application",
-      job: "Job application - Cannot be used for any other purpose",
-      bank: "Copy reserved for bank account opening",
-      general: "Confidential document - Single-use only"
-    },
+    presetRent: "🏠 Rental",
+    presetJob: "💼 Job",
+    presetBank: "🏦 Banking",
+    presetGeneral: "🔒 Single-use",
     opacity: "Opacity",
     color: "Color",
     advanced: "Advanced settings",
@@ -81,32 +80,40 @@ const i18n = {
     flattenLabel: "Flatten into pixels (anti-tamper)",
     downloadPdf: "Download secured PDF",
     downloadJpg: "Download as JPG image",
-    processing: "Processing document...",
+    processing: "Securing document...",
     page: "Page",
-    noDoc: "No document selected",
+    noDoc: "Live preview",
     installModalTitle: "Install Application",
     installIosTab: "iPhone (iOS)",
     installAndroidTab: "Android",
     iosStep1: "In Safari, tap the Share button",
-    iosStep1Sub: "The square icon with an upward arrow at the bottom.",
+    iosStep1Sub: "The square icon with an upward arrow at the bottom of your screen.",
     iosStep2: "Scroll down and select \"Add to Home Screen\"",
+    iosStep2Sub: "➕ Add to Home Screen",
     iosStep3: "Tap \"Add\"",
-    iosStep3Sub: "The app icon will appear on your home screen and works offline.",
+    iosStep3Sub: "The app will be installed and works 100% offline.",
     androidStep1: "In Chrome, tap \"Install app\"",
-    androidStep1Sub: "A prompt will appear at the bottom of the screen.",
-    androidStep2: "Or tap the 3 dots ⋮ at the top right, then \"Install\"",
-    androidStep2Sub: "The app will be added directly to your app drawer.",
-    close: "Close"
+    androidStep1Sub: "A prompt banner will appear at the bottom.",
+    androidStep2: "Or tap ⋮ then \"Install\"",
+    androidStep2Sub: "The app will be added directly to your home screen.",
+    close: "Close",
+    watermarkPlaceholder: "E.g. Document exclusively intended for...",
+    presets: {
+      rent: "DOCUMENT EXCLUSIVELY INTENDED FOR RENTAL APPLICATION",
+      job: "JOB APPLICATION - CANNOT BE USED FOR ANY OTHER PURPOSE",
+      bank: "COPY RESERVED FOR BANK ACCOUNT OPENING",
+      general: "CONFIDENTIAL DOCUMENT - SINGLE-USE ONLY"
+    }
   }
 };
 
 let currentLang = localStorage.getItem('filigrane_lang') || (navigator.language.startsWith('fr') ? 'fr' : 'en');
 
-// App State
+// State
 const state = {
   file: null,
   fileName: '',
-  fileType: null, // 'pdf' | 'image'
+  fileType: null,
   pdfDoc: null,
   imageObj: null,
   numPages: 0,
@@ -124,7 +131,7 @@ const state = {
   },
 };
 
-// DOM Elements
+// Elements
 const btnLangFr = document.getElementById('btn-lang-fr');
 const btnLangEn = document.getElementById('btn-lang-en');
 const dropzone = document.getElementById('dropzone');
@@ -138,7 +145,7 @@ const btnClearFile = document.getElementById('btn-clear-file');
 
 const watermarkTextEl = document.getElementById('watermark-text');
 const btnAddDate = document.getElementById('btn-add-date');
-const presetChips = document.querySelectorAll('.preset-chip');
+const presetButtons = document.querySelectorAll('.preset-btn');
 
 const sliderOpacity = document.getElementById('slider-opacity');
 const valOpacity = document.getElementById('val-opacity');
@@ -148,12 +155,12 @@ const sliderSpacing = document.getElementById('slider-spacing');
 const valSpacing = document.getElementById('val-spacing');
 const sliderAngle = document.getElementById('slider-angle');
 const valAngle = document.getElementById('val-angle');
-const colorDots = document.querySelectorAll('.color-dot');
+const dotColors = document.querySelectorAll('.dot-color');
 const chkFlatten = document.getElementById('chk-flatten');
 
 const btnToggleAdvanced = document.getElementById('btn-toggle-advanced');
 const advancedPanel = document.getElementById('advanced-panel');
-const advancedArrow = document.getElementById('advanced-arrow');
+const accordionArrow = document.getElementById('accordion-arrow');
 
 const btnDownloadPdf = document.getElementById('btn-download-pdf');
 const btnDownloadImg = document.getElementById('btn-download-img');
@@ -189,10 +196,9 @@ function init() {
   setupPreviewEvents();
   setupDownloadEvents();
   setupModalEvents();
-  autoDetectMobilePlatform();
+  detectPlatform();
 }
 
-// Language Handling
 function applyLanguage(lang) {
   currentLang = lang;
   localStorage.setItem('filigrane_lang', lang);
@@ -200,7 +206,7 @@ function applyLanguage(lang) {
   btnLangFr.classList.toggle('active', lang === 'fr');
   btnLangEn.classList.toggle('active', lang === 'en');
 
-  // Update text nodes with data-i18n
+  // Update all localized text
   document.querySelectorAll('[data-i18n]').forEach((el) => {
     const key = el.getAttribute('data-i18n');
     if (i18n[lang][key]) {
@@ -216,8 +222,12 @@ function applyLanguage(lang) {
     }
   });
 
-  // If text is still default, update it to translated default
-  if (!watermarkTextEl.value || Object.values(i18n.fr.presets).includes(watermarkTextEl.value) || Object.values(i18n.en.presets).includes(watermarkTextEl.value)) {
+  // Automatically update textarea if it matches any standard preset in either language
+  const allPresetTexts = [
+    ...Object.values(i18n.fr.presets),
+    ...Object.values(i18n.en.presets),
+  ];
+  if (!watermarkTextEl.value || allPresetTexts.includes(watermarkTextEl.value.trim())) {
     watermarkTextEl.value = i18n[lang].presets.rent;
     state.options.text = watermarkTextEl.value;
   }
@@ -303,9 +313,9 @@ function setupOptionEvents() {
     }
   });
 
-  presetChips.forEach((chip) => {
-    chip.addEventListener('click', () => {
-      const key = chip.getAttribute('data-key');
+  presetButtons.forEach((btn) => {
+    btn.addEventListener('click', () => {
+      const key = btn.getAttribute('data-key');
       const text = i18n[currentLang].presets[key];
       if (text) {
         watermarkTextEl.value = text;
@@ -343,9 +353,9 @@ function setupOptionEvents() {
     renderCurrentPagePreview();
   });
 
-  colorDots.forEach((dot) => {
+  dotColors.forEach((dot) => {
     dot.addEventListener('click', () => {
-      colorDots.forEach((d) => d.classList.remove('active'));
+      dotColors.forEach((d) => d.classList.remove('active'));
       dot.classList.add('active');
       state.options.color = dot.getAttribute('data-color');
       renderCurrentPagePreview();
@@ -356,10 +366,10 @@ function setupOptionEvents() {
     state.options.flatten = e.target.checked;
   });
 
-  // Collapsible Advanced Panel
+  // Collapsible Advanced
   btnToggleAdvanced.addEventListener('click', () => {
     const isOpen = advancedPanel.classList.toggle('open');
-    advancedArrow.textContent = isOpen ? '▼' : '▶';
+    accordionArrow.textContent = isOpen ? '▼' : '▶';
   });
 }
 
@@ -394,7 +404,7 @@ function setupDownloadEvents() {
   btnDownloadImg.addEventListener('click', downloadCurrentPageAsImage);
 }
 
-// Install Modal Handling
+// Modal Handling
 function setupModalEvents() {
   btnOpenInstall.addEventListener('click', () => installModal.classList.add('open'));
   btnCloseModal.addEventListener('click', () => installModal.classList.remove('open'));
@@ -419,7 +429,7 @@ function setupModalEvents() {
   });
 }
 
-function autoDetectMobilePlatform() {
+function detectPlatform() {
   const isIOS = /iPad|iPhone|iPod/.test(navigator.userAgent) && !window.MSStream;
   if (isIOS) {
     tabIos.click();
@@ -463,7 +473,7 @@ async function handleFileSelected(file) {
       state.imageObj = img;
       fileDetailsEl.textContent = `${img.naturalWidth}×${img.naturalHeight}px • ${sizeText}`;
     } else {
-      alert("Unsupported format. Please select PDF, JPG or PNG.");
+      alert("Unsupported format. Please select a PDF, JPG or PNG file.");
       resetLoadedFile();
       return;
     }
@@ -501,35 +511,35 @@ function resetLoadedFile() {
   btnNextPage.disabled = true;
 }
 
-// Sample Passport Generator
+// Sample Passport
 function loadSamplePassport() {
   const canvas = document.createElement('canvas');
   canvas.width = 1200;
   canvas.height = 850;
   const ctx = canvas.getContext('2d');
 
-  ctx.fillStyle = '#f8fafc';
+  ctx.fillStyle = '#fafafa';
   ctx.fillRect(0, 0, canvas.width, canvas.height);
 
   ctx.strokeStyle = '#0284c7';
   ctx.lineWidth = 5;
   ctx.strokeRect(20, 20, canvas.width - 40, canvas.height - 40);
 
-  ctx.fillStyle = '#0f172a';
+  ctx.fillStyle = '#09090b';
   ctx.font = 'bold 24px sans-serif';
   ctx.fillText("RÉPUBLIQUE FRANÇAISE — SPECIMEN PASSPORT", 50, 75);
 
   ctx.font = '14px sans-serif';
-  ctx.fillStyle = '#64748b';
-  ctx.fillText("TEST SAMPLE DOCUMENT / DOCUMENT TEST", 50, 105);
+  ctx.fillStyle = '#71717a';
+  ctx.fillText("DOCUMENT DE TEST / SAMPLE DOCUMENT", 50, 105);
 
   // Photo
-  ctx.fillStyle = '#e2e8f0';
+  ctx.fillStyle = '#e4e4e7';
   ctx.fillRect(50, 140, 240, 320);
-  ctx.strokeStyle = '#94a3b8';
+  ctx.strokeStyle = '#a1a1aa';
   ctx.strokeRect(50, 140, 240, 320);
 
-  ctx.fillStyle = '#64748b';
+  ctx.fillStyle = '#71717a';
   ctx.font = 'bold 20px sans-serif';
   ctx.textAlign = 'center';
   ctx.fillText("PHOTO", 170, 290);
@@ -548,33 +558,33 @@ function loadSamplePassport() {
   fields.forEach(([lbl, val], idx) => {
     const colX = 330;
     const rowY = 160 + (idx * 52);
-    ctx.fillStyle = '#64748b';
+    ctx.fillStyle = '#71717a';
     ctx.font = '12px sans-serif';
     ctx.fillText(lbl, colX, rowY);
-    ctx.fillStyle = '#0f172a';
+    ctx.fillStyle = '#09090b';
     ctx.font = 'bold 17px sans-serif';
     ctx.fillText(val, colX, rowY + 20);
   });
 
   // MRZ
-  ctx.fillStyle = '#f1f5f9';
+  ctx.fillStyle = '#f4f4f5';
   ctx.fillRect(40, 520, canvas.width - 80, 280);
-  ctx.strokeStyle = '#cbd5e1';
+  ctx.strokeStyle = '#e4e4e7';
   ctx.strokeRect(40, 520, canvas.width - 80, 280);
 
-  ctx.fillStyle = '#1e293b';
+  ctx.fillStyle = '#18181b';
   ctx.font = 'bold 26px "Courier New", monospace';
   ctx.fillText("P<FRAMARTIN<<CAMILLE<JEAN<<<<<<<<<<<<<<<<<<<", 60, 620);
   ctx.fillText("24AA000008FRA9005152F3410091<<<<<<<<<<<<<<04", 60, 690);
 
   canvas.toBlob((blob) => {
-    const testFile = new File([blob], "specimen_passport_sample.png", { type: "image/png" });
+    const testFile = new File([blob], "sample_passport.png", { type: "image/png" });
     handleFileSelected(testFile);
   });
 }
 
 // ==========================================
-// Watermark Canvas Engine
+// Watermark Drawing
 // ==========================================
 
 function drawWatermark(ctx, width, height, options) {
@@ -658,7 +668,7 @@ async function renderCurrentPagePreview() {
 }
 
 // ==========================================
-// PDF Export (Raster Flattening)
+// PDF Export
 // ==========================================
 
 async function generateAndDownloadPdf() {
@@ -759,15 +769,16 @@ function downloadCurrentPageAsImage() {
   link.click();
 }
 
-// Start Application & Service Worker
+// Lifecycle
 document.addEventListener('DOMContentLoaded', () => {
   init();
 
   if ('serviceWorker' in navigator) {
-    window.addEventListener('load', () => {
-      navigator.serviceWorker.register('./sw.js')
-        .then((reg) => console.log('PWA Service Worker ready:', reg.scope))
-        .catch((err) => console.log('SW registration skipped:', err));
-    });
+    navigator.serviceWorker.register('./sw.js')
+      .then((reg) => {
+        reg.update();
+        console.log('SW updated');
+      })
+      .catch((err) => console.log('SW error:', err));
   }
 });
